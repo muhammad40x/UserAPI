@@ -9,7 +9,7 @@ namespace UserAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
+//[EnableCors]
 public class FoydalanuvchiController : ControllerBase
 {
 

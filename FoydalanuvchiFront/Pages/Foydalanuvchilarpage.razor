@@ -1,0 +1,45 @@
+﻿@page "/foydalanuvchilarpage"
+@inject HttpClient client
+@inject NavigationManager manager
+<PageTitle>Userlar</PageTitle>
+<h3>Foydalanuvchilar :</h3>
+
+
+
+
+<br />
+
+<form style="background-color:aqua ; width300px">
+    <input class="form-control" placeholder="Ismingiz" type="text" @bind="Ismi" />
+    <input class="form-control" placeholder="Parolingiz" type="text" @bind="Paroli" />
+    <button class="btn btn-primary" type="button"  @onclick="AddIsm" >Submit</button>
+</form> 
+
+
+@code {
+    private string? Ismi { get; set; }
+    private string? Paroli { get; set; }
+
+    
+    public class Foydalanuvchilar
+    {
+        public string Ismi { get; set; }
+        public string Parol { get; set; }
+    }
+
+   
+
+    private async Task AddIsm()
+    {
+        var foydalanuvchilar = new Foydalanuvchilar()
+            {
+                Ismi = Ismi,
+                Parol = Paroli
+            };
+
+
+        await client.PostAsJsonAsync("/api/Foydalanuvchi",foydalanuvchilar);
+
+       manager.NavigateTo("/list");
+    }
+}

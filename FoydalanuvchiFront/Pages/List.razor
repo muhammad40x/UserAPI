@@ -1,0 +1,54 @@
+﻿@page "/list"
+@inject HttpClient client
+
+
+<PageTitle>List</PageTitle>
+<h3>Foydalanuvchilar</h3>
+<a href="/foydalanuvchilarpage">
+<button class="btn btn-primary" type="button" > Add user </button> 
+</a>
+<br />
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ismi</th>
+            <th scope="col">Paroli</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < foydalanuvchi.Count; i++)
+        {
+            var school = foydalanuvchi[i];
+
+            <tr>
+                <th scope="row">@(i + 1)</th>
+                <td>@school.Ismi</td>
+                <td>@school.Parol</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<FoydalanuvchiDto>? foydalanuvchi = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        foydalanuvchi = await client.GetFromJsonAsync < List<FoydalanuvchiDto >> ("api/Foydalanuvchi");
+
+        StateHasChanged();
+
+    }
+
+
+    public class FoydalanuvchiDto
+    {
+        public string Ismi { get; set; }
+        public string Parol { get; set; }
+    }
+}
