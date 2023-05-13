@@ -1,0 +1,33 @@
+﻿@page "/foydalanuvchilar"
+<PageTitle>Userlar</PageTitle>
+<h3>Foydalanuvchi</h3>
+
+
+@foreach (var hamma in foydalanuvchilar)
+{
+    <h2>@hamma.Ismi</h2>
+}
+
+
+
+
+
+@code {
+    private List<FoydalanuvchiDto> foydalanuvchilar = new();
+
+    public class FoydalanuvchiDto
+    {
+        public string Ismi { get; set; }
+        public string Parol { get; set; }
+    }
+
+    private async Task Load()
+    {
+        var client = new HttpClient();
+
+        foydalanuvchilar = await client.GetFromJsonAsync<List<FoydalanuvchiDto>>("https://localhost:7002/api/Foydalanuvchi");
+
+        StateHasChanged();
+    }
+
+}
